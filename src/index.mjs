@@ -6,7 +6,7 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://one-thousand-checkboxes-front.vercel.app/", // Reemplaza con el origen de tu frontend
+    origin: "*", // Reemplaza con el origen de tu frontend
     methods: ["GET", "POST"], // Métodos permitidos
   },
 });
