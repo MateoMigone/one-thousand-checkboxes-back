@@ -16,7 +16,7 @@ let clientsQty = 0;
 
 io.on("connection", (socket) => {
   console.log("New client connected");
-  clientsQty++;
+  clientsQty = io.engine.clientsCount;
   socket.emit("initialState", { initialCheckboxesState, clientsQty });
 
   socket.on("toggleCheckbox", (data) => {
@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
-    clientsQty--;
+    clientsQty = io.engine.clientsCount;
     socket.emit("updateClients", clientsQty);
   });
 });
