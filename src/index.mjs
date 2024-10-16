@@ -11,20 +11,24 @@ const io = new Server(httpServer, {
   },
 });
 
-let checkboxes = Array(24).fill(false);
+let initialCheckboxesState = Array(100).fill(false);
+let clientsQty = 0;
 
 io.on("connection", (socket) => {
   console.log("New client connected");
-  socket.emit("initialState", checkboxes);
+  clientsQty++;
+  socket.emit("initialState", { initialCheckboxesState, clientsQty });
 
   socket.on("toggleCheckbox", (data) => {
     const { index, isChecked } = data;
-    checkboxes[index] = isChecked;
+    initialCheckboxesState[index] = isChecked;
     io.emit("updateCheckbox", { index, isChecked });
   });
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
+    clientsQty--;
+    socket.emit("updateClients", clientsQty);
   });
 });
 
